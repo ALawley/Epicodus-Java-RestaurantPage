@@ -13,11 +13,19 @@ public class RestaurantTest {
   }
 
   @Test
-  public void all_addsAllInstancesOfRestaurantToList() {
+  public void save_addsAllInstancesOfRestaurantToList() {
     Restaurant testRestaurant = new Restaurant("Lardo");
     Restaurant testRestaurant1 = new Restaurant("Grassa");
     testRestaurant.save();
     testRestaurant1.save();
     assertEquals(2, Restaurant.all().size());
+  }
+
+  @Test
+  public void update_changesRestaurantName() {
+    Restaurant testRestaurant = new Restaurant("Lardo");
+    testRestaurant.save();
+    testRestaurant.update("Bunk");
+    assertEquals("Bunk", testRestaurant.getName());
   }
 }

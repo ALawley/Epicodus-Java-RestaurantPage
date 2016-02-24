@@ -46,15 +46,17 @@ public class Restaurant {
     }
   }
 
-//   //UPDATE
-//   public void update(String newName) {
-//     this.mName = newName;
-//     try(Connection con = DB.sql2o.open()) {
-//       /******************************************************
-//         Students: TODO: Display all restaurants on main page
-//       *******************************************************/
-//       }
-//   }
+  //UPDATE
+  public void update(String newName) {
+    this.name = newName;
+    String sql = "UPDATE restaurants SET name = :name WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("name", newName)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
 //
 //   //DELETE
 //   public void delete() {
