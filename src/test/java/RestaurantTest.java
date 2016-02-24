@@ -36,4 +36,11 @@ public class RestaurantTest {
     testRestaurant.delete();
     assertEquals(0, Restaurant.all().size());
   }
+
+  @Test
+  public void find_findsInstanceOfRestaurantById() {
+    Restaurant testRestaurant = new Restaurant("Bunk");
+    testRestaurant.save();
+    assertEquals(Restaurant.find(testRestaurant.getId()), testRestaurant); 
+  }
 }

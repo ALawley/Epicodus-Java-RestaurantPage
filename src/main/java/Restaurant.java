@@ -68,6 +68,15 @@ public class Restaurant {
           .executeUpdate();
     }
   }
+
+  public static Restaurant find(int id) {
+    String sql = "SELECT id, name FROM restaurants WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .addParameter("id", id)
+        .executeAndFetchFirst(Restaurant.class);
+    }
+  }
 //
 //   /******************************************************
 //     Students:
