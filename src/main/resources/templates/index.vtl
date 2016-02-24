@@ -10,7 +10,7 @@
     <input id="type" name="type" type="text" class="form-control">
   </div>
 
-  <button type="submit" class="btn btn-success">Add Cuisine</button>
+  <button type="submit" class="btn btn-success" id="cuisineBtn">Add Cuisine</button>
 </form>
 
 <h3>Add a restaurant</h3>
@@ -26,7 +26,7 @@
     <select id='cuisineId' name='cuisineId' type='text'>
     <option value="0" selected="selected">None</option>
     #foreach($cuisine in $cuisines)
-      <option value="$cuisine.getId()">$cuisine.getType()</option>
+      <option value="$cuisine.getId()" id ="$cuisine.getId()">$cuisine.getType()</option>
     #end
     </select>
   </div>
@@ -36,7 +36,7 @@
     <input id="description" name="description" type="text" class="form-control">
   </div>
 
-  <button type="submit" class="btn btn-success">Add Restaurant</button>
+  <button type="submit" class="btn btn-success" id="restaurantBtn">Add Restaurant</button>
 </form>
 
 <p>Click on a cuisine to see its restaurants:</p>
