@@ -28,14 +28,15 @@ public class Restaurant {
     }
   }
 
-//   //CREATE
-//   public void save() {
-//     try (Connection con = DB.sql2o.open()) {
-//       /******************************************************
-//         Students: TODO: Display all restaurants on main page
-//       *******************************************************/
-//     }
-//   }
+  //CREATE
+  public void save() {
+    try (Connection con = DB.sql2o.open()) {
+    String sql = "INSERT INTO restaurants(name) VALUES (:name)";
+    con.createQuery(sql)
+      .addParameter("name", name)
+      .executeUpdate();
+    }
+  }
 
   //READ
   public static List<Restaurant> all() {
