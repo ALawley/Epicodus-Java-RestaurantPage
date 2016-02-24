@@ -24,7 +24,7 @@
   <div class="form-group">
     <label for="cuisineId">Select a Cuisine (Optional)</label>
     <select id='cuisineId' name='cuisineId' type='text'>
-    <option value="none" selected="selected">None</option>
+    <option value="0" selected="selected">None</option>
     #foreach($cuisine in $cuisines)
       <option value="$cuisine.getId()">$cuisine.getType()</option>
     #end

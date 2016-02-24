@@ -1,0 +1,17 @@
+<div class="jumbotron">
+  <h1>Restaurant List</h1>
+</div>
+
+<ul>
+  #if($id)
+    #foreach($restaurant in $restaurants)
+      <li><a href="/cuisines/$id/restaurants/$restaurant.getId()">$restaurant.getName()</a></li>
+    #end
+  #else
+    #foreach($restaurant in $restaurants)
+      <li><a href="/cuisines/untyped/restaurants/$restaurant.getId()">$restaurant.getName()</a></li>
+    #end
+  #end
+</ul>
+
+<a href="/" class="btn btn-info">View all cuisines</a>

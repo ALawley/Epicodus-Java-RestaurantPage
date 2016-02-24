@@ -3,6 +3,7 @@ import java.util.HashMap;
 import static spark.Spark.*;
 import spark.ModelAndView;
 import spark.template.velocity.VelocityTemplateEngine;
+import java.util.List;
 
 public class App {
 
@@ -39,8 +40,13 @@ public class App {
       String restaurantName = request.queryParams("name");
       String description = request.queryParams("description");
       Restaurant newRestaurant = new Restaurant(restaurantName, description);
+      int cuisineId = Integer.parseInt(request.queryParams("cuisineId"));
 
       newRestaurant.save();
+      if (cuisineId > 0) {
+        newRestaurant.assignCuisine(cuisineId);
+      }
+
       model.put("cuisines", Cuisine.all());
       model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
@@ -56,6 +62,31 @@ public class App {
       model.put("cuisines", Cuisine.all());
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    get("/cuisines/untyped", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      List<Restaurant> restaurants = Cuisine.getUnassignedRestaurants();
+      model.put("restaurants", restaurants);
+
+      model.put("template", "templates/cuisine.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    get("/cuisines/:id", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int id = Integer.parseInt(request.params(":id"));
+      Cuisine newCuisine = Cuisine.find(Integer.parseInt(request.params(":id")));
+      List<Restaurant> restaurants = newCuisine.getRestaurants();
+      model.put("restaurants", restaurants);
+      model.put("id", id);
+
+      model.put("template", "templates/cuisine.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
 
 
     // get("/new-restaurant", (request, reponse) -> {
