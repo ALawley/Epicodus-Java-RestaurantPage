@@ -81,11 +81,26 @@ public class Cuisine {
   }
 
   public List<Restaurant> getRestaurants() {
-    String sql = "SELECT cuisine_id, name, id FROM restaurants WHERE cuisine_id = :cuisine_id";
+    String sql = "SELECT * FROM restaurants WHERE cuisine_id = :cuisine_id";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql)
         .addParameter("cuisine_id", cuisine_id)
         .executeAndFetch(Restaurant.class);
+    }
+  }
+
+  public static List<Restaurant> getUnassignedRestaurants() {
+    String sql = "SELECT * FROM restaurants WHERE cuisine_id IS NULL";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .executeAndFetch(Restaurant.class);
+    }
+  }
+
+  public static void deleteAll(){
+  try(Connection con = DB.sql2o.open()) {
+    String deleteCuisineQuery = "DELETE FROM cuisine *;";
+    con.createQuery(deleteCuisineQuery).executeUpdate();
     }
   }
 

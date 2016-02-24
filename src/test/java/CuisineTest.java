@@ -56,4 +56,16 @@ public class CuisineTest {
     testRestaurant1.assignCuisine(testCuisine.getId());
     assertEquals(2,testCuisine.getRestaurants().size());
   }
+
+  @Test
+  public void getUnassignedRestaurants_getAllRestaurantsWithoutACuisine() {
+    Cuisine testCuisine = new Cuisine("Sandwiches");
+    testCuisine.save();
+    Restaurant testRestaurant = new Restaurant("Bunk", "Sandwich shop");
+    Restaurant testRestaurant1 = new Restaurant("Lardo", "Pork-centric sandwich shop");
+    testRestaurant.save();
+    testRestaurant1.save();
+    testRestaurant.assignCuisine(testCuisine.getId());
+    assertEquals(1,Cuisine.getUnassignedRestaurants().size());
+  }
 }

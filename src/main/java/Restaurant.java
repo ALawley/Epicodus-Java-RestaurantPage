@@ -102,16 +102,23 @@ public class Restaurant {
     }
   }
 
-    public void assignCuisine(int cuisine_id) {
-      this.cuisine_id = cuisine_id ;
-      String sql = "UPDATE restaurants SET cuisine_id = :cuisine_id WHERE id = :id";
-      try(Connection con = DB.sql2o.open()) {
-        con.createQuery(sql)
-          .addParameter("cuisine_id", cuisine_id)
-          .addParameter("id", id)
-          .executeUpdate();
-      }
+  public void assignCuisine(int cuisine_id) {
+    this.cuisine_id = cuisine_id ;
+    String sql = "UPDATE restaurants SET cuisine_id = :cuisine_id WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("cuisine_id", cuisine_id)
+        .addParameter("id", id)
+        .executeUpdate();
     }
+  }
+
+  public static void deleteAll(){
+  try(Connection con = DB.sql2o.open()) {
+    String deleteRestaurantQuery = "DELETE FROM restaurants *;";
+    con.createQuery(deleteRestaurantQuery).executeUpdate();
+    }
+  }
 
 //
 //   /******************************************************

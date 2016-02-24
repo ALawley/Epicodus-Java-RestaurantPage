@@ -16,17 +16,53 @@ public class App {
     get("/", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
       model.put("template", "templates/index.vtl");
+
+      model.put("cuisines", Cuisine.all());
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
-    /******************************************************
-    Students: TODO: Create page to add a new restaurant
-    *******************************************************/
-    get("/new-restaurant", (request, reponse) -> {
+    post("/cuisines", (request, response) -> {
       HashMap<String, Object> model = new HashMap<String, Object>();
-      model.put("template", "templates/newrestaurant.vtl");
+
+      String cuisineType = request.queryParams("type");
+      Cuisine newCuisine = new Cuisine(cuisineType);
+
+      newCuisine.save();
+      model.put("cuisines", Cuisine.all());
+      model.put("template", "templates/index.vtl");
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
+
+    post("/restaurants", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      String restaurantName = request.queryParams("name");
+      String description = request.queryParams("description");
+      Restaurant newRestaurant = new Restaurant(restaurantName, description);
+
+      newRestaurant.save();
+      model.put("cuisines", Cuisine.all());
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+    post("/clear", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+      model.put("template", "templates/index.vtl");
+
+      Restaurant.deleteAll();
+      Cuisine.deleteAll();
+
+      model.put("cuisines", Cuisine.all());
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
+
+    // get("/new-restaurant", (request, reponse) -> {
+    //   HashMap<String, Object> model = new HashMap<String, Object>();
+    //   model.put("template", "templates/newrestaurant.vtl");
+    //   return new ModelAndView(model, layout);
+    // }, new VelocityTemplateEngine());
 
     /******************************************************
     STUDENTS:
