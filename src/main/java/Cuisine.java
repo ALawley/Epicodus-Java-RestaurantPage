@@ -9,6 +9,8 @@ public class Cuisine {
     this.type = type;
   }
 
+// Cuisine.find(testRestaurant.getCuisineId()).getType()
+
   public int getId() {
     return cuisine_id;
   }
@@ -75,6 +77,15 @@ public class Cuisine {
       return con.createQuery(sql)
         .addParameter("cuisine_id", cuisine_id)
         .executeAndFetchFirst(Cuisine.class);
+    }
+  }
+
+  public List<Restaurant> getRestaurants() {
+    String sql = "SELECT cuisine_id, name, id FROM restaurants WHERE cuisine_id = :cuisine_id";
+    try(Connection con = DB.sql2o.open()) {
+      return con.createQuery(sql)
+        .addParameter("cuisine_id", cuisine_id)
+        .executeAndFetch(Restaurant.class);
     }
   }
 

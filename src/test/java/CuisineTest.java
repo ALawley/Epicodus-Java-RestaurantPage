@@ -43,4 +43,17 @@ public class CuisineTest {
     testCuisine.save();
     assertEquals(Cuisine.find(testCuisine.getId()), testCuisine);
   }
+
+  @Test
+  public void getRestaurants_getAllRestaurantsWithinACuisine() {
+    Cuisine testCuisine = new Cuisine("Sandwiches");
+    testCuisine.save();
+    Restaurant testRestaurant = new Restaurant("Bunk");
+    Restaurant testRestaurant1 = new Restaurant("Lardo");
+    testRestaurant.save();
+    testRestaurant1.save();
+    testRestaurant.assignCuisine(testCuisine.getId());
+    testRestaurant1.assignCuisine(testCuisine.getId());
+    assertEquals(2,testCuisine.getRestaurants().size());
+  }
 }
