@@ -14,24 +14,32 @@ public class RestaurantTest {
 
   @Test
   public void save_addsAllInstancesOfRestaurantToList() {
-    Restaurant testRestaurant = new Restaurant("Lardo");
-    Restaurant testRestaurant1 = new Restaurant("Grassa");
+    Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
+    Restaurant testRestaurant1 = new Restaurant("Grassa", "Italian fare");
     testRestaurant.save();
     testRestaurant1.save();
     assertEquals(2, Restaurant.all().size());
   }
 
   @Test
-  public void update_changesRestaurantName() {
-    Restaurant testRestaurant = new Restaurant("Lardo");
+  public void updateName_changesRestaurantName() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
     testRestaurant.save();
-    testRestaurant.update("Bunk");
+    testRestaurant.updateName("Bunk");
     assertEquals("Bunk", testRestaurant.getName());
   }
 
   @Test
+  public void updateDescription_changesRestaurantDescription() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
+    testRestaurant.save();
+    testRestaurant.updateDescription("Sandwiches!");
+    assertEquals("Sandwiches!", testRestaurant.getDescription());
+  }
+
+  @Test
   public void delete_removesRestaurantFromDatabase() {
-    Restaurant testRestaurant = new Restaurant("Lardo");
+    Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
     testRestaurant.save();
     testRestaurant.delete();
     assertEquals(0, Restaurant.all().size());
@@ -39,14 +47,14 @@ public class RestaurantTest {
 
   @Test
   public void find_findsInstanceOfRestaurantById() {
-    Restaurant testRestaurant = new Restaurant("Bunk");
+    Restaurant testRestaurant = new Restaurant("Bunk", "Sandwich shop");
     testRestaurant.save();
     assertEquals(Restaurant.find(testRestaurant.getId()), testRestaurant);
   }
 
   @Test
   public void assignCuisine_assignsCuisineToTheRestaurant() {
-    Restaurant testRestaurant = new Restaurant("Bunk");
+    Restaurant testRestaurant = new Restaurant("Bunk", "Sandwich shop");
     testRestaurant.save();
     Cuisine testCuisine = new Cuisine("Sandwiches");
     testCuisine.save();

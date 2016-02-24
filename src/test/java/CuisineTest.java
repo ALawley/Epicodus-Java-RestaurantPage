@@ -48,8 +48,8 @@ public class CuisineTest {
   public void getRestaurants_getAllRestaurantsWithinACuisine() {
     Cuisine testCuisine = new Cuisine("Sandwiches");
     testCuisine.save();
-    Restaurant testRestaurant = new Restaurant("Bunk");
-    Restaurant testRestaurant1 = new Restaurant("Lardo");
+    Restaurant testRestaurant = new Restaurant("Bunk", "Sandwich shop");
+    Restaurant testRestaurant1 = new Restaurant("Lardo", "Pork-centric sandwich shop");
     testRestaurant.save();
     testRestaurant1.save();
     testRestaurant.assignCuisine(testCuisine.getId());

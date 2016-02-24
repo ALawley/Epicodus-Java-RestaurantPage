@@ -5,9 +5,11 @@ public class Restaurant {
   private int id;
   private String name;
   private int cuisine_id;
+  private String description;
 
-  public Restaurant (String name) {
+  public Restaurant (String name, String description) {
     this.name = name;
+    this.description = description;
   }
 
   public int getId() {
@@ -22,6 +24,10 @@ public class Restaurant {
     return name;
   }
 
+  public String getDescription() {
+    return description;
+  }
+
   @Override
   public boolean equals(Object otherRestaurant){
     if (!(otherRestaurant instanceof Restaurant)) {
@@ -29,16 +35,18 @@ public class Restaurant {
     } else {
       Restaurant newRestaurant = (Restaurant) otherRestaurant;
       return this.getName().equals(newRestaurant.getName()) &&
-        this.getId() == newRestaurant.getId();
+        this.getId() == newRestaurant.getId() &&
+        this.getDescription().equals(newRestaurant.getDescription());
     }
   }
 
   //CREATE
   public void save() {
     try (Connection con = DB.sql2o.open()) {
-    String sql = "INSERT INTO restaurants(name) VALUES (:name)";
+    String sql = "INSERT INTO restaurants(name, description) VALUES (:name, :description)";
     this.id = (int) con.createQuery(sql, true)
       .addParameter("name", name)
+      .addParameter("description", description)
       .executeUpdate()
       .getKey();
     }
@@ -46,19 +54,30 @@ public class Restaurant {
 
   //READ
   public static List<Restaurant> all() {
-    String sql = "SELECT id, name FROM restaurants";
+    String sql = "SELECT * FROM restaurants";
     try (Connection con = DB.sql2o.open()) {
       return con.createQuery(sql).executeAndFetch(Restaurant.class);
     }
   }
 
   //UPDATE
-  public void update(String newName) {
+  public void updateName(String newName) {
     this.name = newName ;
     String sql = "UPDATE restaurants SET name = :name WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
         .addParameter("name", newName)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
+
+  public void updateDescription(String newDescription) {
+    this.description = newDescription ;
+    String sql = "UPDATE restaurants SET description = :description WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("description", newDescription)
         .addParameter("id", id)
         .executeUpdate();
     }
@@ -75,7 +94,7 @@ public class Restaurant {
   }
 
   public static Restaurant find(int id) {
-    String sql = "SELECT id, name FROM restaurants WHERE id = :id";
+    String sql = "SELECT * FROM restaurants WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       return con.createQuery(sql)
         .addParameter("id", id)
