@@ -32,9 +32,10 @@ public class Restaurant {
   public void save() {
     try (Connection con = DB.sql2o.open()) {
     String sql = "INSERT INTO restaurants(name) VALUES (:name)";
-    con.createQuery(sql)
+    this.id = (int) con.createQuery(sql, true)
       .addParameter("name", name)
-      .executeUpdate();
+      .executeUpdate()
+      .getKey();
     }
   }
 
@@ -48,7 +49,7 @@ public class Restaurant {
 
   //UPDATE
   public void update(String newName) {
-    this.name = newName;
+    this.name = newName ;
     String sql = "UPDATE restaurants SET name = :name WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -58,14 +59,15 @@ public class Restaurant {
     }
   }
 //
-//   //DELETE
-//   public void delete() {
-//     try(Connection con = DB.sql2o.open()) {
-//       /******************************************************
-//         Students: TODO: Display all restaurants on main page
-//       *******************************************************/
-//     }
-//   }
+  //DELETE
+  public void delete() {
+    try(Connection con = DB.sql2o.open()) {
+      String sql = "DELETE FROM restaurants WHERE id = :id";
+        con.createQuery(sql)
+          .addParameter("id", id)
+          .executeUpdate();
+    }
+  }
 //
 //   /******************************************************
 //     Students:

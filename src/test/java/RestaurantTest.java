@@ -28,4 +28,12 @@ public class RestaurantTest {
     testRestaurant.update("Bunk");
     assertEquals("Bunk", testRestaurant.getName());
   }
+
+  @Test
+  public void delete_removesRestaurantFromDatabase() {
+    Restaurant testRestaurant = new Restaurant("Lardo");
+    testRestaurant.save();
+    testRestaurant.delete();
+    assertEquals(0, Restaurant.all().size());
+  }
 }
