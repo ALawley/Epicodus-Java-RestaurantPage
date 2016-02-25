@@ -62,7 +62,6 @@ public class Restaurant {
 
   //UPDATE
   public void updateName(String newName) {
-    this.name = newName ;
     String sql = "UPDATE restaurants SET name = :name WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -73,7 +72,6 @@ public class Restaurant {
   }
 
   public void updateDescription(String newDescription) {
-    this.description = newDescription ;
     String sql = "UPDATE restaurants SET description = :description WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -103,7 +101,6 @@ public class Restaurant {
   }
 
   public void assignCuisine(int cuisine_id) {
-    this.cuisine_id = cuisine_id ;
     String sql = "UPDATE restaurants SET cuisine_id = :cuisine_id WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -114,7 +111,6 @@ public class Restaurant {
   }
 
   public void clearCuisine() {
-    // this.cuisine_id = null;
     String sql = "UPDATE restaurants SET cuisine_id = NULL WHERE id = :id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)

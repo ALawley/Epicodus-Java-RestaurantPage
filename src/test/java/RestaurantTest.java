@@ -26,7 +26,8 @@ public class RestaurantTest {
     Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
     testRestaurant.save();
     testRestaurant.updateName("Bunk");
-    assertEquals("Bunk", testRestaurant.getName());
+    Restaurant savedRestaurant = Restaurant.find(testRestaurant.getId());
+    assertEquals("Bunk", savedRestaurant.getName());
   }
 
   @Test
@@ -34,7 +35,8 @@ public class RestaurantTest {
     Restaurant testRestaurant = new Restaurant("Lardo", "Pork-centric sandwich shop");
     testRestaurant.save();
     testRestaurant.updateDescription("Sandwiches!");
-    assertEquals("Sandwiches!", testRestaurant.getDescription());
+    Restaurant savedRestaurant = Restaurant.find(testRestaurant.getId());
+    assertEquals("Sandwiches!", savedRestaurant.getDescription());
   }
 
   @Test
@@ -59,6 +61,19 @@ public class RestaurantTest {
     Cuisine testCuisine = new Cuisine("Sandwiches");
     testCuisine.save();
     testRestaurant.assignCuisine(testCuisine.getId());
-    assertEquals(testRestaurant.getCuisineId(), testCuisine.getId());
+    Restaurant savedRestaurant = Restaurant.find(testRestaurant.getId());
+    assertEquals(savedRestaurant.getCuisineId(), testCuisine.getId());
+  }
+
+  @Test
+  public void clearCuisine_removesCuisineFromRestaurant() {
+    Cuisine testCuisine = new Cuisine("Thai");
+    testCuisine.save();
+    Restaurant testRestaurant = new Restaurant("Bunk", "Sandwich shop");
+    testRestaurant.save();
+    testRestaurant.assignCuisine(testCuisine.getId());
+    testRestaurant.clearCuisine();
+    Restaurant savedRestaurant = Restaurant.find(testRestaurant.getId());
+    assertEquals(savedRestaurant.getCuisineId(), 0);
   }
 }

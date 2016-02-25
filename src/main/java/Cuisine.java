@@ -51,7 +51,6 @@ public class Cuisine {
 
   //UPDATE
   public void update(String newType) {
-    this.type = newType;
     String sql = "UPDATE cuisine SET type = :type WHERE cuisine_id = :cuisine_id";
     try(Connection con = DB.sql2o.open()) {
       con.createQuery(sql)
@@ -63,6 +62,7 @@ public class Cuisine {
 //
   //DELETE
   public void delete() {
+    this.clearAllAssigned();
     try(Connection con = DB.sql2o.open()) {
       String sql = "DELETE FROM cuisine WHERE cuisine_id = :cuisine_id";
         con.createQuery(sql)
@@ -101,6 +101,13 @@ public class Cuisine {
   try(Connection con = DB.sql2o.open()) {
     String deleteCuisineQuery = "DELETE FROM cuisine *;";
     con.createQuery(deleteCuisineQuery).executeUpdate();
+    }
+  }
+
+  public void clearAllAssigned() {
+    List<Restaurant> restaurantsToClear = this.getRestaurants();
+    for (Restaurant restaurant : restaurantsToClear) {
+      restaurant.clearCuisine();
     }
   }
 

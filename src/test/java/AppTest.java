@@ -83,7 +83,7 @@ public class AppTest extends FluentTest {
   }
 
   @Test
-  public void cuisineUpdateReturnsToRoot() {
+  public void cuisineUpdateChangesCuisineDisplay() {
     Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
     testRestaurant.save();
     Cuisine testCuisine = new Cuisine("Thai");

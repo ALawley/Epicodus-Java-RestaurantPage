@@ -127,6 +127,17 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/cuisines/:id/delete", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      Cuisine deleteCuisine = Cuisine.find(Integer.parseInt(request.params(":id")));
+
+      deleteCuisine.delete();
+      model.put("cuisines", Cuisine.all());
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
 
 
 
