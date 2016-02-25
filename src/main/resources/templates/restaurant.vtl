@@ -24,6 +24,11 @@
   <button type="submit" class="btn btn-success" id="updateCuisineBtn">Update Cuisine</button>
 </form>
 
+<form action="/restaurants/$restaurant.getId()/delete" method="post">
+
+  <button type="submit" class="btn btn-danger" id="deleteCuisineBtn">Delete Restaurant</button>
+</form>
+
 
 <a href="/" class="btn btn-info">Back to main page</a>
 #if ($currentCuisine)
