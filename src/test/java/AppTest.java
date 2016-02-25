@@ -98,5 +98,39 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Thai");
   }
 
+  @Test
+  public void cuisineDeleteRemovesCuisine() {
+    Cuisine testCuisine = new Cuisine("Thai");
+    testCuisine.save();
+    String cuisinePath = String.format("http://localhost:4567/cuisines/%d", testCuisine.getId());
+    goTo(cuisinePath);
+    submit("#deleteCuisineBtn");
+    assertEquals(pageSource().contains("Thai"), false);
+  }
+
+  @Test
+  public void cuisineDeletePreservesRestaurants() {
+    Cuisine testCuisine = new Cuisine("Sandwiches");
+    testCuisine.save();
+    Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
+    testRestaurant.save();
+    testRestaurant.assignCuisine(testCuisine.getId());
+    String cuisinePath = String.format("http://localhost:4567/cuisines/%d", testCuisine.getId());
+    goTo(cuisinePath);
+    submit("#deleteCuisineBtn");
+    goTo("http://localhost:4567/cuisines/untyped");
+    assertThat(pageSource()).contains("Lardo");
+  }
+
+  @Test
+  public void restaurantDeleteRemovesRestaurant() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
+    testRestaurant.save();
+    String restaurantPath = String.format("http://localhost:4567/cuisines/untyped/restaurants/%d", testRestaurant.getId());
+    goTo(restaurantPath);
+    submit("#deleteRestaurantBtn");
+    goTo("http://localhost:4567/cuisines/untyped");
+    assertEquals(pageSource().contains("Lardo"), false);
+  }
 
 }
