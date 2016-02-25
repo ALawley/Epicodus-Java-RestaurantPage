@@ -58,4 +58,15 @@ public class AppTest extends FluentTest {
     goTo("http://localhost:4567/cuisines/untyped");
     assertThat(pageSource()).contains("Lardo");
   }
+
+  @Test
+  public void restaurantsPageDisplaysRestaurant() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
+    testRestaurant.save();
+    goTo("http://localhost:4567/cuisines/untyped");
+    click("a", withText("Lardo"));
+    assertThat(pageSource()).contains("Heavy Sandwiches");
+  }
+
+  
 }

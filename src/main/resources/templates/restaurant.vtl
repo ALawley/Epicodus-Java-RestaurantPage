@@ -1,0 +1,33 @@
+<div class="jumbotron">
+  <h1>Restaurant List</h1>
+</div>
+
+<h3>$restaurant.getName()</h3>
+#if($currentCuisine)
+<h4>$currentCuisine.getType()</h4>
+#end
+
+<h4>$restaurant.getDescription()</h4>
+
+<form action="/cuisineUpdate" method="post">
+
+  <div class="form-group">
+    <label for="cuisineId">Update restaurant cuisine</label>
+    <select id='cuisineId' name='cuisineId' type='text'>
+    <option value="0" selected="selected">None</option>
+    #foreach($cuisine in $cuisines)
+      <option value="$cuisine.getId()" id ="$cuisine.getId()">$cuisine.getType()</option>
+    #end
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-success" id="updateCuisineBtn">Update Cuisine</button>
+</form>
+
+
+<a href="/" class="btn btn-info">Back to main page</a>
+#if ($currentCuisine)
+<a href="/cuisines/$currentCuisine.getId()" class="btn btn-info">Back to $currentCuisine.getType() page</a>
+#else
+<a href="/cuisines/untyped" class="btn btn-info">Back to restaurants without cuisines page</a>
+#end
