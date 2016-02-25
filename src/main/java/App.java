@@ -110,6 +110,23 @@ public class App {
       return new ModelAndView(model, layout);
     }, new VelocityTemplateEngine());
 
+    post("/restaurants/:id/cuisineUpdate", (request, response) -> {
+      HashMap<String, Object> model = new HashMap<String, Object>();
+
+      int cuisineId = Integer.parseInt(request.queryParams("cuisineId"));
+      Restaurant newRestaurant = Restaurant.find(Integer.parseInt(request.params(":id")));
+
+      if (cuisineId > 0) {
+        newRestaurant.assignCuisine(cuisineId);
+      } else {
+        newRestaurant.clearCuisine();
+      }
+
+      model.put("cuisines", Cuisine.all());
+      model.put("template", "templates/index.vtl");
+      return new ModelAndView(model, layout);
+    }, new VelocityTemplateEngine());
+
 
 
 

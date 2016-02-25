@@ -113,6 +113,16 @@ public class Restaurant {
     }
   }
 
+  public void clearCuisine() {
+    // this.cuisine_id = null;
+    String sql = "UPDATE restaurants SET cuisine_id = NULL WHERE id = :id";
+    try(Connection con = DB.sql2o.open()) {
+      con.createQuery(sql)
+        .addParameter("id", id)
+        .executeUpdate();
+    }
+  }
+
   public static void deleteAll(){
   try(Connection con = DB.sql2o.open()) {
     String deleteRestaurantQuery = "DELETE FROM restaurants *;";

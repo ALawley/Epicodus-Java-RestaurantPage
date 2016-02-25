@@ -68,5 +68,35 @@ public class AppTest extends FluentTest {
     assertThat(pageSource()).contains("Heavy Sandwiches");
   }
 
-  
+  @Test
+  public void cuisineUpdateReturnsToRoot() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
+    testRestaurant.save();
+    Cuisine testCuisine = new Cuisine("Thai");
+    testCuisine.save();
+    String clickstring = "#" + testCuisine.getId();
+    String restaurantPath = String.format("http://localhost:4567/cuisines/untyped/restaurants/%d", testRestaurant.getId());
+    goTo(restaurantPath);
+    click(clickstring);
+    submit("#updateCuisineBtn");
+    assertThat(pageSource()).contains("Add a cuisine to categorize restaurants");
+  }
+
+  @Test
+  public void cuisineUpdateReturnsToRoot() {
+    Restaurant testRestaurant = new Restaurant("Lardo", "Heavy Sandwiches");
+    testRestaurant.save();
+    Cuisine testCuisine = new Cuisine("Thai");
+    testCuisine.save();
+    String clickstring = "#" + testCuisine.getId();
+    String restaurantPath = String.format("http://localhost:4567/cuisines/untyped/restaurants/%d", testRestaurant.getId());
+    String cuisineAddedPath = String.format("http://localhost:4567/cuisines/%d/restaurants/%d", testCuisine.getId(), testRestaurant.getId());
+    goTo(restaurantPath);
+    click(clickstring);
+    submit("#updateCuisineBtn");
+    goTo(cuisineAddedPath);
+    assertThat(pageSource()).contains("Thai");
+  }
+
+
 }
